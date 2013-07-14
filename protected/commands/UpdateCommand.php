@@ -47,10 +47,10 @@ class UpdateCommand extends CConsoleCommand
 
 	private function setTitle($data)
 	{
-		$title = Title::model()->findByPk($data->ChID);
+		$title = Title::model()->findByPk($data->TID);
 		if (! $title)
 			$title = new Title();
-		$title->id = $data->ChID;
+		$title->id = $data->TID;
 		$title->title = $data->Title;
 		$title->shortTitle = $data->ShortTitle;
 		$title->urls = $data->Urls;
