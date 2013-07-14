@@ -9,6 +9,9 @@
  * @property string $shortTitle
  * @property integer $category
  * @property string $urls
+ *
+ * The followings are the available model relations:
+ * @property Program[] $programs
  */
 class Title extends CActiveRecord
 {
@@ -55,6 +58,7 @@ class Title extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'programs' => array(self::HAS_MANY, 'Program', 'titleId'),
 		);
 	}
 

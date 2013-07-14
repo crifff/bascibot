@@ -8,6 +8,9 @@
  * @property integer $groupId
  * @property string $name
  * @property string $url
+ *
+ * The followings are the available model relations:
+ * @property Program[] $programs
  */
 class Channel extends CActiveRecord
 {
@@ -37,8 +40,8 @@ class Channel extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, name, url', 'required'),
-			array('id, groupId', 'numerical', 'integerOnly'=>true),
+			array('name, url', 'required'),
+			array('groupId', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, groupId, name, url', 'safe', 'on'=>'search'),
@@ -53,6 +56,7 @@ class Channel extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'programs' => array(self::HAS_MANY, 'Program', 'channelId'),
 		);
 	}
 

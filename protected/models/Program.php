@@ -16,6 +16,10 @@
  * @property integer $warn
  * @property integer $revision
  * @property integer $allDay
+ *
+ * The followings are the available model relations:
+ * @property Channel $channel
+ * @property Title $title
  */
 class Program extends CActiveRecord
 {
@@ -61,6 +65,8 @@ class Program extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'channel' => array(self::BELONGS_TO, 'Channel', 'channelId'),
+			'title' => array(self::BELONGS_TO, 'Title', 'titleId'),
 		);
 	}
 
