@@ -67,6 +67,7 @@ class Program extends CActiveRecord
 		return array(
 			'channel' => array(self::BELONGS_TO, 'Channel', 'channelId'),
 			'title' => array(self::BELONGS_TO, 'Title', 'titleId'),
+			'check' => array(self::HAS_ONE, 'Check', array('titleId' => 'titleId', 'channelId' => 'channelId')),
 		);
 	}
 
@@ -103,7 +104,10 @@ class Program extends CActiveRecord
 		$criteria->with = array(
 			'title',
 			'channel',
+			'check',
 		);
+		$criteria->compare('title.category',1);
+
 		$criteria->compare('id', $this->id);
 		$criteria->compare('channelId', $this->channelId);
 		$criteria->compare('titleId', $this->titleId);
@@ -118,7 +122,7 @@ class Program extends CActiveRecord
 		$criteria->compare('allDay', $this->allDay);
 		$criteria->compare('title', $this->title, true);
 		$criteria->compare('channel.name', $this->channel, true);
-//		$criteria->compare('category', $this->title->category, true);
+		//		$criteria->compare('category', $this->title->category, true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,

@@ -44,9 +44,51 @@ $('.search-form form').keyup(function(){
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'program-grid',
 	'dataProvider' => $model->search(), 'filter' => $model, 'columns' => array(
-//		array('name' => 'category', 'value' => '$data->title->category'),
+		//		array('name' => 'category', 'value' => '$data->title->category'),
+		array('name' => '', 'value' => '$data->check?"✔":""', 'filter' => false),
 		array('name' => 'title', 'value' => '$data->title->title'),
 		array('name' => 'channel', 'value' => '$data->channel->name'),
 		'startTime',
-	),
-)); ?>
+		array
+		(
+			'class' => 'CButtonColumn',
+			'template' => '{check}{uncheck}',
+			'buttons' => array
+			(
+				'check' => array
+				(
+					'label' => '[+]',
+					'url' => 'Yii::app()->controller->createUrl("check",array("titleId"=>$data->title->id,"channelId"=>$data->channel->id))',
+					'click' => "function(){
+    $.fn.yiiGridView.update('program-grid', {
+        type:'POST',
+        url:$(this).attr('href'),
+        success:function(data) {
+              $.fn.yiiGridView.update('program-grid');
+        }
+    })
+    return false;
+  }
+",
+					'visible' => '!$data->check'
+				),
+				'uncheck' => array
+				(
+					'label' => '[-]',
+					'url' => 'Yii::app()->controller->createUrl("uncheck",array("titleId"=>$data->title->id,"channelId"=>$data->channel->id))',
+					'click' => "function(){
+    $.fn.yiiGridView.update('program-grid', {
+        type:'POST',
+        url:$(this).attr('href'),
+        success:function(data) {
+              $.fn.yiiGridView.update('program-grid');
+        }
+    })
+    return false;
+  }
+",
+					'visible' => '$data->check'
+				),
+			),
+		),
+	)));?>
