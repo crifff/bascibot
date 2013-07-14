@@ -99,7 +99,7 @@ class Program extends CActiveRecord
 	public function search()
 	{
 		$criteria = new CDbCriteria;
-		$criteria->group='t.titleId,t.channelId';
+		$criteria->group = 't.titleId,t.channelId';
 		$criteria->with = array(
 			'title' => array('select' => ''),
 			'channel' => array('select' => ''),
@@ -128,10 +128,11 @@ class Program extends CActiveRecord
 
 		));
 	}
+
 	public function checkedSearch()
 	{
 		$criteria = new CDbCriteria;
-		$criteria->group='t.titleId,t.channelId';
+		$criteria->group = 't.titleId,t.channelId';
 		$criteria->with = array(
 			'title' => array('select' => ''),
 			'channel' => array('select' => ''),
@@ -157,7 +158,61 @@ class Program extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,
-
 		));
+	}
+
+	public function now()
+	{
+		$criteria = new CDbCriteria;
+		$criteria->with = array(
+			'title',
+			'channel',
+		);
+		$criteria->join = 'INNER JOIN `check` AS c ON t.channelId = c.channelId AND c.titleId = t.titleId';
+		$criteria->order = 'startTime ASC';
+		$criteria->compare('startTime', '<=', time());
+		return self::model()->findAll($criteria);
+		//		return new CActiveDataProvider($this, array(
+		//			'criteria' => $criteria,
+		//		));
+	}
+
+	public function getNowArray()
+	{
+		$models = $this->now();
+		return $this->convertModelToArray($models);
+
+	}
+
+	public function convertModelToArray($models)
+	{
+		if (is_array($models))
+			$arrayMode = TRUE;
+		else
+		{
+			$models = array($models);
+			$arrayMode = FALSE;
+		}
+
+		$result = array();
+		foreach ($models as $model)
+		{
+			$attributes = $model->getAttributes();
+			$relations = array();
+			foreach ($model->relations() as $key => $related)
+			{
+				if ($model->hasRelated($key))
+				{
+					$relations[$key] = $this->convertModelToArray($model->$key);
+				}
+			}
+			$all = array_merge($attributes, $relations);
+
+			if ($arrayMode)
+				array_push($result, $all);
+			else
+				$result = $all;
+		}
+		return $result;
 	}
 }

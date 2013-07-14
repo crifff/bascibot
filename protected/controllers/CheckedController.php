@@ -28,7 +28,7 @@ class CheckedController extends Controller
 	{
 		return array(
 			array('allow', // allow all users to perform 'index' and 'view' actions
-				'actions' => array('index', 'view'),
+				'actions' => array('index', 'view', 'now'),
 				'users' => array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -131,13 +131,16 @@ class CheckedController extends Controller
 		{
 			header('Content-type: application/json');
 			echo CJSON::encode($model->checkedSearch()->getData());
-			foreach (Yii::app()->log->routes as $route) {
-				if($route instanceof CWebLogRoute) {
+			foreach (Yii::app()->log->routes as $route)
+			{
+				if ($route instanceof CWebLogRoute)
+				{
 					$route->enabled = false; // disable any weblogroutes
 				}
 			}
 			Yii::app()->end();
-		} else
+		}
+		else
 			$this->render('admin', array(
 				'model' => $model,
 			));
@@ -156,6 +159,36 @@ class CheckedController extends Controller
 		$this->render('admin', array(
 			'model' => $model,
 		));
+	}
+
+	public function actionNow()
+	{
+		$model = new Program('search');
+		$model->unsetAttributes(); // clear any default values
+//		$d=$model->now();
+//		$d= CJSON::encode($model->getNowArray());
+//////		$d=array_map(function($a){ $a = $a->toJson();},$d);
+//		$d = json_decode($d);
+//		var_dump($d);exit;
+
+		if (isset($_GET['json']))
+		{
+//			header('Content-type: application/json');
+			echo CJSON::encode($model->getNowArray());
+			foreach (Yii::app()->log->routes as $route)
+			{
+				if ($route instanceof CWebLogRoute)
+				{
+					$route->enabled = false; // disable any weblogroutes
+				}
+			}
+			Yii::app()->end();
+		}
+		else
+			$this->render('admin', array(
+				'model' => $model,
+			));
+
 	}
 
 	/**
