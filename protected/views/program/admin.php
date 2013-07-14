@@ -48,7 +48,7 @@ $('.search-form form').keyup(function(){
 		array('name' => '', 'value' => '$data->check?"✔":""', 'filter' => false),
 		array('name' => 'title', 'value' => '$data->title->title'),
 		array('name' => 'channel', 'value' => '$data->channel->name'),
-		'startTime',
+//		'startTime',
 		array
 		(
 			'class' => 'CButtonColumn',

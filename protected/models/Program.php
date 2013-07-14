@@ -100,13 +100,13 @@ class Program extends CActiveRecord
 	{
 
 		$criteria = new CDbCriteria;
-
+		$criteria->group='t.titleId,t.channelId';
 		$criteria->with = array(
-			'title',
-			'channel',
-			'check',
+			'title' => array('select' => ''),
+			'channel' => array('select' => ''),
+			'check' => array('select' => ''),
 		);
-		$criteria->compare('title.category',1);
+		$criteria->compare('title.category', 1);
 
 		$criteria->compare('id', $this->id);
 		$criteria->compare('channelId', $this->channelId);
