@@ -7,7 +7,7 @@ class m130714_114852_create_program_table extends CDbMigration
 		$this->createTable('program', array(
 			'id' => 'pk',
 			'channelId' => 'int NOT NULL',
-			'stationId' => 'int NOT NULL',
+			'titleId' => 'int NOT NULL',
 			'startTime' => 'DATETIME NOT NULL',
 			'endTime' => 'DATETIME NOT NULL',
 			'lastUpdate' => 'DATETIME NOT NULL',

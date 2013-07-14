@@ -8,6 +8,7 @@ class m130714_120217_create_channel_table extends CDbMigration
 			'id' => 'pk',
 			'groupId' => 'int',
 			'name' => 'text NOT NULL',
+			'url' => 'text NOT NULL',
 		));
 	}
 
