@@ -28,7 +28,7 @@ class Program extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Program the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
 	}
@@ -50,10 +50,10 @@ class Program extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('channelId, titleId, startTime, endTime, lastUpdate, subTitle, flag, deleted, warn, revision, allDay', 'required'),
-			array('channelId, titleId, flag, deleted, warn, revision, allDay', 'numerical', 'integerOnly'=>true),
+			array('channelId, titleId, flag, deleted, warn, revision, allDay', 'numerical', 'integerOnly' => true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, channelId, titleId, startTime, endTime, lastUpdate, subTitle, flag, deleted, warn, revision, allDay', 'safe', 'on'=>'search'),
+			array('id, channelId, titleId, startTime, endTime, lastUpdate, subTitle, flag, deleted, warn, revision, allDay, title, channel, category', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -97,26 +97,32 @@ class Program extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('channelId',$this->channelId);
-		$criteria->compare('titleId',$this->titleId);
-		$criteria->compare('startTime',$this->startTime,true);
-		$criteria->compare('endTime',$this->endTime,true);
-		$criteria->compare('lastUpdate',$this->lastUpdate,true);
-		$criteria->compare('subTitle',$this->subTitle,true);
-		$criteria->compare('flag',$this->flag);
-		$criteria->compare('deleted',$this->deleted);
-		$criteria->compare('warn',$this->warn);
-		$criteria->compare('revision',$this->revision);
-		$criteria->compare('allDay',$this->allDay);
+		$criteria->with = array(
+			'title',
+			'channel',
+		);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('channelId', $this->channelId);
+		$criteria->compare('titleId', $this->titleId);
+		$criteria->compare('startTime', $this->startTime, true);
+		$criteria->compare('endTime', $this->endTime, true);
+		$criteria->compare('lastUpdate', $this->lastUpdate, true);
+		$criteria->compare('subTitle', $this->subTitle, true);
+		$criteria->compare('flag', $this->flag);
+		$criteria->compare('deleted', $this->deleted);
+		$criteria->compare('warn', $this->warn);
+		$criteria->compare('revision', $this->revision);
+		$criteria->compare('allDay', $this->allDay);
+		$criteria->compare('title', $this->title, true);
+		$criteria->compare('channel.name', $this->channel, true);
+//		$criteria->compare('category', $this->title->category, true);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
+
 		));
 	}
 }
