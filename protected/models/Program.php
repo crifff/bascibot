@@ -98,7 +98,6 @@ class Program extends CActiveRecord
 	 */
 	public function search()
 	{
-
 		$criteria = new CDbCriteria;
 		$criteria->group='t.titleId,t.channelId';
 		$criteria->with = array(
@@ -107,6 +106,38 @@ class Program extends CActiveRecord
 			'check' => array('select' => ''),
 		);
 		$criteria->compare('title.category', 1);
+
+		$criteria->compare('id', $this->id);
+		$criteria->compare('channelId', $this->channelId);
+		$criteria->compare('titleId', $this->titleId);
+		$criteria->compare('startTime', $this->startTime, true);
+		$criteria->compare('endTime', $this->endTime, true);
+		$criteria->compare('lastUpdate', $this->lastUpdate, true);
+		$criteria->compare('subTitle', $this->subTitle, true);
+		$criteria->compare('flag', $this->flag);
+		$criteria->compare('deleted', $this->deleted);
+		$criteria->compare('warn', $this->warn);
+		$criteria->compare('revision', $this->revision);
+		$criteria->compare('allDay', $this->allDay);
+		$criteria->compare('title', $this->title, true);
+		$criteria->compare('channel.name', $this->channel, true);
+		//		$criteria->compare('category', $this->title->category, true);
+
+		return new CActiveDataProvider($this, array(
+			'criteria' => $criteria,
+
+		));
+	}
+	public function checkedSearch()
+	{
+		$criteria = new CDbCriteria;
+		$criteria->group='t.titleId,t.channelId';
+		$criteria->with = array(
+			'title' => array('select' => ''),
+			'channel' => array('select' => ''),
+		);
+		$criteria->join = 'INNER JOIN `check` AS c ON t.channelId = c.channelId AND c.titleId = t.titleId';
+		$criteria->order = 'startTime ASC';
 
 		$criteria->compare('id', $this->id);
 		$criteria->compare('channelId', $this->channelId);
