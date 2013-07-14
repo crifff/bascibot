@@ -1,9 +1,9 @@
 <?php
 class UpdateCommand extends CConsoleCommand
 {
-	public function actionIndex()
+	public function actionIndex($days = 7)
 	{
-		$programs = $this->getProgram();
+		$programs = $this->getProgram($days);
 		foreach ($programs->items as $program)
 		{
 			$this->setChannel($program);
@@ -58,9 +58,15 @@ class UpdateCommand extends CConsoleCommand
 		$title->save();
 	}
 
-	private function getProgram()
+	private function getProgram($days)
 	{
-		$data = file_get_contents(Yii::app()->basePath . '/data/json');
+		$start = time();
+		$end = $start + $days * 24 * 60 * 60;
+		$url = sprintf("http://cal.syoboi.jp/rss2.php?alt=json&filter=0&start=%d&end=%d",
+			date('YmdHi', $start),
+			date('YmdHi', $end)
+		);
+		$data = file_get_contents($url);
 		$data = json_decode($data);
 		return $data;
 	}
