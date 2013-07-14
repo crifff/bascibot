@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Web Application',
+	'name'=>'bascibot {\'<\'}',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -64,9 +64,19 @@ return array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
 				),
-				// uncomment the following to show log messages on web pages
-				array(
-					'class'=>'CWebLogRoute',
+			),
+		),
+		'widgetFactory'=>array(
+			'widgets'=>array(
+				'CLinkPager'=>array(
+					'maxButtonCount'=>5,
+					'cssFile'=>false,
+				),
+				'CGridView'=>array(
+					'cssFile'=>false,
+				),
+				'CJuiDatePicker'=>array(
+					'language'=>'ja',
 				),
 			),
 		),

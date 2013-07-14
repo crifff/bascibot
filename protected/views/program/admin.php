@@ -2,16 +2,6 @@
 /* @var $this ProgramController */
 /* @var $model Program */
 
-$this->breadcrumbs = array(
-	'Programs' => array('index'),
-	'Manage',
-);
-
-$this->menu = array(
-	array('label' => 'List Program', 'url' => array('index')),
-	array('label' => 'Create Program', 'url' => array('create')),
-);
-
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();
@@ -26,29 +16,16 @@ $('.search-form form').keyup(function(){
 ");
 ?>
 
-<h1>Manage Programs</h1>
 
-<p>
-	You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>
-		&lt;&gt;</b>
-	or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
-</p>
-
-<?php echo CHtml::link('Advanced Search', '#', array('class' => 'search-button')); ?>
-<div class="search-form" style="display:none">
-	<?php $this->renderPartial('_search', array(
-		'model' => $model,
-	)); ?>
-</div><!-- search-form -->
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id' => 'program-grid',
 	'dataProvider' => $model->search(), 'filter' => $model, 'columns' => array(
 		//		array('name' => 'category', 'value' => '$data->title->category'),
-		array('name' => '', 'value' => '$data->check?"✔":""', 'filter' => false),
-		array('name' => 'title', 'value' => '$data->title->title'),
-		array('name' => 'channel', 'value' => '$data->channel->name'),
-//		'startTime',
+		//		array('name' => '', 'value' => '$data->check?"✔":""', 'filter' => false, 'htmlOptions' => array('class' => 'item-checked')),
+		array('name' => 'title', 'value' => '$data->title->title', 'htmlOptions' => array('class' => 'item-title')),
+		array('name' => 'channel', 'value' => '$data->channel->name', 'htmlOptions' => array('class' => 'item-channel')),
+		//		'startTime',
 		array
 		(
 			'class' => 'CButtonColumn',
@@ -57,7 +34,7 @@ $('.search-form form').keyup(function(){
 			(
 				'check' => array
 				(
-					'label' => '[+]',
+					'label' => '<span class="icon-checkbox-unchecked"></span>',
 					'url' => 'Yii::app()->controller->createUrl("check",array("titleId"=>$data->title->id,"channelId"=>$data->channel->id))',
 					'click' => "function(){
     $.fn.yiiGridView.update('program-grid', {
@@ -74,7 +51,7 @@ $('.search-form form').keyup(function(){
 				),
 				'uncheck' => array
 				(
-					'label' => '[-]',
+					'label' => '<span class="icon-checkbox-checked"></span>',
 					'url' => 'Yii::app()->controller->createUrl("uncheck",array("titleId"=>$data->title->id,"channelId"=>$data->channel->id))',
 					'click' => "function(){
     $.fn.yiiGridView.update('program-grid', {
@@ -91,4 +68,9 @@ $('.search-form form').keyup(function(){
 				),
 			),
 		),
-	)));?>
+	),
+	'pager' => 'application.widgets.LinkPager',
+	'pagerCssClass' => 'pure-paginator',
+	'summaryText' => '',
+	'htmlOptions' => array('class' => 'pure-table pure-table-horizontal'),
+));?>

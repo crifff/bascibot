@@ -1,0 +1,56 @@
+.header h1, .hero h1, .hero h2, .tk-omnes-pro {
+    font-family: "omnes-pro", sans-serif;
+}
+
+.header h1 {
+    margin: 0.2rem 0;
+    font-size: 2.5rem;
+    font-weight: 300;
+}
+
+body {
+    font-size: 0.9rem;
+    font-family: sans-serif;
+    color: #777;
+}
+
+.demo-unit, .tk-proxima-nova, body, h2, h3 {
+    font-family: "proxima-nova", sans-serif;
+}
+
+.header {
+    min-height: 60px;
+    margin: 0;
+    color: #333;
+    padding: 1em;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+}
+
+#main {
+    text-align: center;
+}
+
+.items {
+    width: 100%;
+    text-align:left;
+}
+.item-channel{
+    width:12rem;
+}
+.item-checked{
+    width:1rem;
+}
+
+.pure-paginator {
+    margin: 5px 0 15px 0;
+}
+
+.footer{
+    font-size: 0.8rem;
+    padding: 1em 0 2em 0;
+}
+a.delete img{
+    width:16px;
+}
