@@ -31,7 +31,7 @@ class Phergie_Plugin_Anime extends Phergie_Plugin_Abstract
 			$this->fail('PDO and pdo_sqlite extensions must be installed');
 		}
 
-		$defaultDbLocation = dirname(__FILE__) . '/FeedTicker/anime.db';
+		$defaultDbLocation = dirname(__FILE__) . '/Anime/anime.db';
 
 		$fileName = $this->getConfig('anime.sqlite_db', $defaultDbLocation);
 		$dirName = dirname($fileName);
@@ -65,7 +65,7 @@ class Phergie_Plugin_Anime extends Phergie_Plugin_Abstract
 		// Registering a Cron Callback
 		$this->plugins->getPlugin('Cron')->registerCallback(
 			array($this, 'animeCheckingCallback'),
-			5,
+			3,
 			array(),
 			true
 		);
@@ -85,7 +85,7 @@ class Phergie_Plugin_Anime extends Phergie_Plugin_Abstract
 		foreach ($data as $program)
 		{
 			$time = strtotime($program->startTime);
-			if (time() + 60 * 5 < $time && time() - 60 * 5 > $time)
+			if (time() + 60 * 5 < $time || time() - 60 * 5 > $time)
 				continue;
 			$result = $this->db->query(sprintf("SELECT * FROM anime_noticed WHERE programId = %d",(int)$program->id));
 			if($result->fetchAll())
@@ -103,96 +103,6 @@ class Phergie_Plugin_Anime extends Phergie_Plugin_Abstract
 		}
 		$result = $this->db->query(sprintf("INSERT INTO anime_noticed values(%d)",(int)$program->id));
 		return;
-		$now = time();
-		$idleTime = intval($this->getConfig('FeedTicker.idleTime', 7200)); //7200=60*60*2
-		$time = $now - $idleTime;
-		$feeds = $this->plugins->getPlugin('FeedManager')->getFeedsList();
-		$smartReader = (bool)$this->getConfig('FeedTicker.smartReader', false);
-
-		foreach ($feeds as $key => $f)
-		{
-			// Check just active feeds
-			if ($f['active'] == 0)
-			{
-				continue;
-			}
-
-			// Is time to check this feed again?
-			if ($f['updated'] + $f['delay'] >= $now)
-			{
-				continue;
-			}
-
-			// Check if bot is on this channel
-			if (! isset($this->channelsStatus[$f['channel']]) AND $smartReader)
-			{
-				continue;
-			}
-
-			// Check if this channel is active
-			if ($this->channelsStatus[$f['channel']] < $time AND $smartReader)
-			{
-				continue;
-			}
-
-			// Get Feed
-			if (! $feed = $this->getFeed($f['feed_url'], $f['updated'], $f['etag']))
-			{
-				continue;
-			}
-
-			// Parse Feed
-			$FeedParser = $this->plugins->getPlugin('FeedParser');
-			if ($ret = $FeedParser->parseFeed($feed['content'], $feed['header']))
-			{
-
-				// Set new lastUpdate time and etag for this feed
-				$q = $this->db->prepare(
-					'UPDATE ft_feeds
-					 SET updated = :updated, etag = :etag
-					 WHERE rowid = :rowid'
-				);
-				$q->execute(
-					array('rowid' => $f['rowid'],
-						'updated' => $ret->updated,
-						'etag' => $ret->etag)
-				);
-
-				$this->feeds[$key]['etag'] = $ret->etag;
-				$this->feeds[$key]['updated'] = $ret->updated;
-
-				// Ignore items if this feed is older than last check
-				if (! empty($ret->updated) AND $ret->updated < $f['updated'])
-				{
-					continue;
-				}
-
-				// Add new items on database
-				$this->plugins->getPlugin('FeedManager')
-					->addItems($f['rowid'], $ret->items);
-			}
-
-		}
-
-		// Check if is time to delivery items
-		$showDelayTime = intval($this->getConfig('FeedTicker.showDelayTime', 180)); //180=60*3
-		if (($this->lastDeliveryTime + $showDelayTime) > time())
-		{
-			return;
-		}
-
-		// Check Queue
-		foreach ($this->channelsStatus as $channel => $channelTime)
-		{
-			$smartReader = (bool)$this->getConfig('FeedTicker.smartReader', false);
-			if ($channelTime < $time AND $smartReader)
-			{
-				continue;
-			}
-			$this->checkQueue($channel);
-		}
-
-		$this->lastDeliveryTime = time();
 	}
 
 
