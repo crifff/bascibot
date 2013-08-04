@@ -19,7 +19,7 @@ class Check extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Check the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
 	}
@@ -41,10 +41,10 @@ class Check extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('channelId, titleId', 'required'),
-			array('channelId, titleId', 'numerical', 'integerOnly'=>true),
+			array('channelId, titleId', 'numerical', 'integerOnly' => true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, channelId, titleId', 'safe', 'on'=>'search'),
+			array('id, channelId, titleId', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -82,14 +82,14 @@ class Check extends CActiveRecord
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('channelId',$this->channelId);
-		$criteria->compare('titleId',$this->titleId);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('channelId', $this->channelId);
+		$criteria->compare('titleId', $this->titleId);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 }

@@ -19,7 +19,7 @@ class Channel extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Channel the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
 	}
@@ -41,10 +41,10 @@ class Channel extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, url', 'required'),
-			array('groupId', 'numerical', 'integerOnly'=>true),
+			array('groupId', 'numerical', 'integerOnly' => true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, groupId, name, url', 'safe', 'on'=>'search'),
+			array('id, groupId, name, url', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -82,15 +82,15 @@ class Channel extends CActiveRecord
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('groupId',$this->groupId);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('url',$this->url,true);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('groupId', $this->groupId);
+		$criteria->compare('name', $this->name, true);
+		$criteria->compare('url', $this->url, true);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 }

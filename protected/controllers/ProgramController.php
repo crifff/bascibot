@@ -6,7 +6,7 @@ class ProgramController extends Controller
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-//	public $layout = '//layouts/column2';
+	//	public $layout = '//layouts/column2';
 
 	/**
 	 * @return array action filters
@@ -27,19 +27,23 @@ class ProgramController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow', // allow all users to perform 'index' and 'view' actions
-				'actions' => array('index', 'view', 'check','uncheck'),
+			array(
+				'allow', // allow all users to perform 'index' and 'view' actions
+				'actions' => array('index', 'view', 'check', 'uncheck'),
 				'users' => array('*'),
 			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+			array(
+				'allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions' => array('create', 'update'),
 				'users' => array('@'),
 			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+			array(
+				'allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions' => array('admin', 'delete'),
 				'users' => array('admin'),
 			),
-			array('deny', // deny all users
+			array(
+				'deny', // deny all users
 				'users' => array('*'),
 			),
 		);
@@ -51,9 +55,12 @@ class ProgramController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->render('view', array(
-			'model' => $this->loadModel($id),
-		));
+		$this->render(
+			'view',
+			array(
+				'model' => $this->loadModel($id),
+			)
+		);
 	}
 
 	/**
@@ -67,16 +74,19 @@ class ProgramController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if (isset($_POST['Program']))
-		{
+		if (isset($_POST['Program'])) {
 			$model->attributes = $_POST['Program'];
-			if ($model->save())
+			if ($model->save()) {
 				$this->redirect(array('view', 'id' => $model->id));
+			}
 		}
 
-		$this->render('create', array(
-			'model' => $model,
-		));
+		$this->render(
+			'create',
+			array(
+				'model' => $model,
+			)
+		);
 	}
 
 	/**
@@ -91,16 +101,19 @@ class ProgramController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if (isset($_POST['Program']))
-		{
+		if (isset($_POST['Program'])) {
 			$model->attributes = $_POST['Program'];
-			if ($model->save())
+			if ($model->save()) {
 				$this->redirect(array('view', 'id' => $model->id));
+			}
 		}
 
-		$this->render('update', array(
-			'model' => $model,
-		));
+		$this->render(
+			'update',
+			array(
+				'model' => $model,
+			)
+		);
 	}
 
 	/**
@@ -113,8 +126,9 @@ class ProgramController extends Controller
 		$this->loadModel($id)->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if (! isset($_GET['ajax']))
+		if (!isset($_GET['ajax'])) {
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		}
 	}
 
 	/**
@@ -124,12 +138,16 @@ class ProgramController extends Controller
 	{
 		$model = new Program('search');
 		$model->unsetAttributes(); // clear any default values
-		if (isset($_GET['Program']))
+		if (isset($_GET['Program'])) {
 			$model->attributes = $_GET['Program'];
+		}
 
-		$this->render('admin', array(
-			'model' => $model,
-		));
+		$this->render(
+			'admin',
+			array(
+				'model' => $model,
+			)
+		);
 	}
 
 	/**
@@ -139,12 +157,16 @@ class ProgramController extends Controller
 	{
 		$model = new Program('search');
 		$model->unsetAttributes(); // clear any default values
-		if (isset($_GET['Program']))
+		if (isset($_GET['Program'])) {
 			$model->attributes = $_GET['Program'];
+		}
 
-		$this->render('admin', array(
-			'model' => $model,
-		));
+		$this->render(
+			'admin',
+			array(
+				'model' => $model,
+			)
+		);
 	}
 
 	/**
@@ -157,8 +179,9 @@ class ProgramController extends Controller
 	public function loadModel($id)
 	{
 		$model = Program::model()->findByPk($id);
-		if ($model === null)
+		if ($model === null) {
 			throw new CHttpException(404, 'The requested page does not exist.');
+		}
 		return $model;
 	}
 
@@ -168,8 +191,7 @@ class ProgramController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if (isset($_POST['ajax']) && $_POST['ajax'] === 'program-form')
-		{
+		if (isset($_POST['ajax']) && $_POST['ajax'] === 'program-form') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
@@ -177,16 +199,20 @@ class ProgramController extends Controller
 
 	public function actionCheck($titleId, $channelId)
 	{
-		$check = Check::model()->findByAttributes(array('titleId'=>$titleId,'channelId'=>$channelId));
-		if(!$check)$check = new Check();
+		$check = Check::model()->findByAttributes(array('titleId' => $titleId, 'channelId' => $channelId));
+		if (!$check) {
+			$check = new Check();
+		}
 		$check->titleId = $titleId;
 		$check->channelId = $channelId;
 		$check->save();
 	}
+
 	public function actionUnCheck($titleId, $channelId)
 	{
-		$check = Check::model()->findByAttributes(array('titleId'=>$titleId,'channelId'=>$channelId));
-		if($check)
+		$check = Check::model()->findByAttributes(array('titleId' => $titleId, 'channelId' => $channelId));
+		if ($check) {
 			$check->delete();
+		}
 	}
 }

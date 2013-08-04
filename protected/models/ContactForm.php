@@ -24,7 +24,7 @@ class ContactForm extends CFormModel
 			// email has to be a valid email address
 			array('email', 'email'),
 			// verifyCode needs to be entered correctly
-			array('verifyCode', 'captcha', 'allowEmpty'=>!CCaptcha::checkRequirements()),
+			array('verifyCode', 'captcha', 'allowEmpty' => !CCaptcha::checkRequirements()),
 		);
 	}
 
@@ -36,7 +36,7 @@ class ContactForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'verifyCode'=>'Verification Code',
+			'verifyCode' => 'Verification Code',
 		);
 	}
 }

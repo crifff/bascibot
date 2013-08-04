@@ -26,7 +26,6 @@ if (file_exists($dbFile)) {
 }
 
 $db = new PDO('sqlite:' . dirname(__FILE__) . '/' . $dbFile);
-
 $query = '
     CREATE TABLE tld (
         tld VARCHAR(20),

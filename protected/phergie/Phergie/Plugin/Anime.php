@@ -79,7 +79,7 @@ class Phergie_Plugin_Anime extends Phergie_Plugin_Abstract
 	 */
 	public function animeCheckingCallback()
 	{
-		$data = json_decode(file_get_contents('http://localhost:8080/index.php?r=checked/now&json'));
+		$data = json_decode(file_get_contents('http://localhost:8080/checked/now?json'));
 		$text="";
 		foreach ($data as $program)
 		{

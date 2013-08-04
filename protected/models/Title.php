@@ -20,7 +20,7 @@ class Title extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Title the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
 	}
@@ -42,11 +42,11 @@ class Title extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('title', 'required'),
-			array('category', 'numerical', 'integerOnly'=>true),
+			array('category', 'numerical', 'integerOnly' => true),
 			array('shortTitle, urls', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, title, shortTitle, category, urls', 'safe', 'on'=>'search'),
+			array('id, title, shortTitle, category, urls', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -85,16 +85,16 @@ class Title extends CActiveRecord
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('shortTitle',$this->shortTitle,true);
-		$criteria->compare('category',$this->category);
-		$criteria->compare('urls',$this->urls,true);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('title', $this->title, true);
+		$criteria->compare('shortTitle', $this->shortTitle, true);
+		$criteria->compare('category', $this->category);
+		$criteria->compare('urls', $this->urls, true);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 }

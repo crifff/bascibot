@@ -49,11 +49,18 @@ class Program extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('channelId, titleId, startTime, endTime, lastUpdate, subTitle, flag, deleted, warn, revision, allDay', 'required'),
+			array(
+				'channelId, titleId, startTime, endTime, lastUpdate, subTitle, flag, deleted, warn, revision, allDay',
+				'required'
+			),
 			array('channelId, titleId, flag, deleted, warn, revision, allDay', 'numerical', 'integerOnly' => true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, channelId, titleId, startTime, endTime, lastUpdate, subTitle, flag, deleted, warn, revision, allDay, title, channel, category', 'safe', 'on' => 'search'),
+			array(
+				'id, channelId, titleId, startTime, endTime, lastUpdate, subTitle, flag, deleted, warn, revision, allDay, title, channel, category',
+				'safe',
+				'on' => 'search'
+			),
 		);
 	}
 
@@ -186,32 +193,29 @@ class Program extends CActiveRecord
 
 	public function convertModelToArray($models)
 	{
-		if (is_array($models))
-			$arrayMode = TRUE;
-		else
-		{
+		if (is_array($models)) {
+			$arrayMode = true;
+		} else {
 			$models = array($models);
-			$arrayMode = FALSE;
+			$arrayMode = false;
 		}
 
 		$result = array();
-		foreach ($models as $model)
-		{
+		foreach ($models as $model) {
 			$attributes = $model->getAttributes();
 			$relations = array();
-			foreach ($model->relations() as $key => $related)
-			{
-				if ($model->hasRelated($key))
-				{
+			foreach ($model->relations() as $key => $related) {
+				if ($model->hasRelated($key)) {
 					$relations[$key] = $this->convertModelToArray($model->$key);
 				}
 			}
 			$all = array_merge($attributes, $relations);
 
-			if ($arrayMode)
+			if ($arrayMode) {
 				array_push($result, $all);
-			else
+			} else {
 				$result = $all;
+			}
 		}
 		return $result;
 	}

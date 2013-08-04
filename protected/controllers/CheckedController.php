@@ -3,11 +3,6 @@
 class CheckedController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
-
-	/**
 	 * @return array action filters
 	 */
 	public function filters()
@@ -164,15 +159,10 @@ class CheckedController extends Controller
 	{
 		$model = new Program('search');
 		$model->unsetAttributes(); // clear any default values
-//		$d=$model->now();
-//		$d= CJSON::encode($model->getNowArray());
-//////		$d=array_map(function($a){ $a = $a->toJson();},$d);
-//		$d = json_decode($d);
-//		var_dump($d);exit;
 
 		if (isset($_GET['json']))
 		{
-//			header('Content-type: application/json');
+			header('Content-type: application/json');
 			echo CJSON::encode($model->getNowArray());
 			foreach (Yii::app()->log->routes as $route)
 			{
