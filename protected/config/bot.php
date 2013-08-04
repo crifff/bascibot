@@ -36,6 +36,7 @@ return array(
 	//                            'host2' => array('#channel3', '#channel4')
 	//                        ),
 	'autojoin.channels' => '#test',
+	'Anime.api' => 'http://localhost/bascibot/',
 
 	// This is the amount of time in seconds that the Ping plugin will wait
 	// to receive an event from the server before it initiates a self-ping

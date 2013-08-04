@@ -65,7 +65,7 @@ class Phergie_Plugin_Anime extends Phergie_Plugin_Abstract
 		// Registering a Cron Callback
 		$this->plugins->getPlugin('Cron')->registerCallback(
 			array($this, 'animeCheckingCallback'),
-			1,
+			5,
 			array(),
 			true
 		);
@@ -79,12 +79,13 @@ class Phergie_Plugin_Anime extends Phergie_Plugin_Abstract
 	 */
 	public function animeCheckingCallback()
 	{
-		$data = json_decode(file_get_contents('http://localhost:8080/checked/now?json'));
+		$endPoint = trim($this->getConfig('Anime.api', 'http://localhost/'), '/');
+		$data = json_decode(file_get_contents($endPoint . '/checked/now?json'));
 		$text="";
 		foreach ($data as $program)
 		{
 			$time = strtotime($program->startTime);
-			if(time()+60*5 < $time)
+			if (time() + 60 * 5 < $time && time() - 60 * 5 > $time)
 				continue;
 			$result = $this->db->query(sprintf("SELECT * FROM anime_noticed WHERE programId = %d",(int)$program->id));
 			if($result->fetchAll())
