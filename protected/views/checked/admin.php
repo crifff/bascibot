@@ -33,19 +33,9 @@ js
 	array(
 		'id' => 'program-grid',
 		'dataProvider' => $model->checkedSearch(),
-		//	'filter' => $model,
 		'columns' => array(
-			//		'id',
 			array('name' => 'title', 'value' => '$data->title->title'),
 			array('name' => 'channel', 'value' => '$data->channel->name'),
-			/*
-			'subTitle',
-			'flag',
-			'deleted',
-			'warn',
-			'revision',
-			'allDay',
-			*/
 			array(
 				'class' => 'CButtonColumn',
 				'template' => '{delete}',

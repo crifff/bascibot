@@ -1,20 +1,50 @@
 <?php
 /* @var $this CheckedController */
-/* @var $dataProvider CActiveDataProvider */
+/* @var $model Program */
 
-$this->breadcrumbs=array(
-	'Programs',
+$this->breadcrumbs = array(
+	'Programs' => array('index'),
+	'Manage',
 );
 
-$this->menu=array(
-	array('label'=>'Create Program', 'url'=>array('create')),
-	array('label'=>'Manage Program', 'url'=>array('admin')),
+$this->menu = array(
+	array('label' => 'List Program', 'url' => array('index')),
+	array('label' => 'Create Program', 'url' => array('create')),
+);
+
+Yii::app()->clientScript->registerScript(
+	'search',
+	<<<'js'
+	$('.search-button').click(function(){
+		$('.search-form').toggle();
+		return false;
+	});
+	$('.search-form form').submit(function(){
+		$('#program-grid').yiiGridView('update', {
+			data: $(this).serialize()
+		});
+		return false;
+	});
+js
 );
 ?>
-
-<h1>Programs</h1>
-
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-)); ?>
+<?php $this->widget(
+	'zii.widgets.grid.CGridView',
+	array(
+		'id' => 'program-grid',
+		'dataProvider' => $model->checkedSearch(),
+		'columns' => array(
+			array('name' => 'title', 'value' => '$data->title->title'),
+			array('name' => 'channel', 'value' => '$data->channel->name'),
+			array(
+				'class' => 'CButtonColumn',
+				'template' => '{delete}',
+				'deleteButtonImageUrl' => Yii::app()->request->baseUrl.'/images/cancel-circle.png',
+			),
+		),
+		'pager' => 'application.widgets.LinkPager',
+		'pagerCssClass' => 'pure-paginator',
+		'summaryText' => '',
+		'htmlOptions' => array('class' => 'pure-table pure-table-horizontal'),
+	)
+); ?>
