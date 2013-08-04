@@ -28,29 +28,37 @@ body {
     background: #fff;
 }
 
+.header a{
+    color: inherit;
+    text-decoration: none;
+}
+
 #main {
     text-align: center;
 }
 
 .items {
     width: 100%;
-    text-align:left;
+    text-align: left;
 }
-.item-channel{
-    width:12rem;
+
+.item-channel {
+    width: 12rem;
 }
-.item-checked{
-    width:1rem;
+
+.item-checked {
+    width: 1rem;
 }
 
 .pure-paginator {
     margin: 5px 0 15px 0;
 }
 
-.footer{
+.footer {
     font-size: 0.8rem;
     padding: 1em 0 2em 0;
 }
-a.delete img{
-    width:16px;
+
+a.delete img {
+    width: 16px;
 }

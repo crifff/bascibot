@@ -16,7 +16,9 @@
 	<div class="pure-u-1" id="main">
 
 		<div class="header pure-u-1">
-			<h1><?php echo CHtml::encode(Yii::app()->name); ?></h1>
+			<a href="<?= Yii::app()->request->baseUrl; ?>">
+				<h1><?php echo CHtml::encode(Yii::app()->name); ?></h1>
+			</a>
 		</div>
 
 		<div class="pure-menu pure-menu-open pure-menu-horizontal">
