@@ -2,49 +2,69 @@
 
 class ProgramController extends Controller
 {
-	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
-		$model = new Program('search');
-		$model->unsetAttributes(); // clear any default values
-		if (isset($_GET['Program'])) {
-			$model->attributes = $_GET['Program'];
-		}
+    /** @var Bot */
+    public $bot;
 
-		$this->render(
-			'index',
-			array(
-				'model' => $model,
-			)
-		);
-	}
+    protected function beforeAction($action)
+    {
+        $server = $_GET['server'];
+        $channel = $_GET['channel'];
+        $this->bot = Bot::model()->findByAttributes(array('server' => $server, 'channel' => $channel));
+        return (bool)$this->bot;
+    }
 
-	/**
-	 * @param int $titleId
-	 * @param int $channelId
-	 */
-	public function actionCheck($titleId, $channelId)
-	{
-		$check = Check::model()->findByAttributes(array('titleId' => $titleId, 'channelId' => $channelId));
-		if (!$check) {
-			$check = new Check();
-		}
-		$check->titleId = $titleId;
-		$check->channelId = $channelId;
-		$check->save();
-	}
+    /**
+     * Lists all models.
+     */
+    public function actionIndex($server, $channel)
+    {
+        $model = new Program('search');
+        $model->unsetAttributes(); // clear any default values
+        if (isset($_GET['Program'])) {
+            $model->attributes = $_GET['Program'];
+        }
 
-	/**
-	 * @param int $titleId
-	 * @param int $channelId
-	 */
-	public function actionUnCheck($titleId, $channelId)
-	{
-		$check = Check::model()->findByAttributes(array('titleId' => $titleId, 'channelId' => $channelId));
-		if ($check) {
-			$check->delete();
-		}
-	}
+        $this->render(
+            'index',
+            array(
+                'model' => $model,
+                'server' => $this->bot->server,
+                'channel' => $this->bot->channel,
+                'botId' => $this->bot->id,
+            )
+        );
+    }
+
+    /**
+     * @param int $titleId
+     * @param int $channelId
+     */
+    public function actionCheck($server, $channel, $titleId, $channelId)
+    {
+        /** @var Check $check */
+        $check = Check::model()->findByAttributes(
+            array('titleId' => $titleId, 'channelId' => $channelId, 'botId' => $this->bot->id)
+        );
+        if (!$check) {
+            $check = new Check();
+        }
+        $check->titleId = $titleId;
+        $check->channelId = $channelId;
+        $check->botId = $this->bot->id;
+        $check->save();
+    }
+
+    /**
+     * @param int $titleId
+     * @param int $channelId
+     */
+    public function actionUnCheck($server, $channel, $titleId, $channelId)
+    {
+        $check = Check::model()->findByAttributes(
+            array('titleId' => $titleId, 'channelId' => $channelId, 'botId' => $this->bot->id)
+        );
+        if ($check) {
+            $check->delete();
+        }
+    }
 }

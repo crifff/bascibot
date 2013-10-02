@@ -14,20 +14,18 @@ class RunCommand extends CConsoleCommand
 
         $irc->setAutoRetry(true);
         $irc->setAutoReconnect(true);
-//        $irc->setChannelSyncing(true);
+        //        $irc->setChannelSyncing(true);
         $irc->setDebug(SMARTIRC_DEBUG_ALL);
         $irc->setLogdestination(SMARTIRC_STDOUT);
 
         //10000msec毎に$bot->timer()を呼ぶ
-        $irc->registerTimehandler(10000, $bot, 'timer');
-        //チャンネルメッセージがパターンに一致したら$bot->hello()を呼ぶ
-//        $irc->registerActionhandler(SMARTIRC_TYPE_CHANNEL, '^hi$', $bot, 'hello');
+        $irc->registerTimehandler(3000, $bot, 'timer');
         //すべてのメッセージを$bot->reserveMessage()に渡す
-//        $irc->registerActionhandler(SMARTIRC_TYPE_ALL, '.*', $bot, 'reserveMessage');
+        $irc->registerActionhandler(SMARTIRC_TYPE_ALL, '.*', $bot, 'reserveMessage');
 
         $irc->connect($bot->server, $bot->port);
         $irc->login($bot->nickName, $bot->realName);
-        $irc->join($bot->channel);
+        $irc->join('#' . $bot->channel);
 
         $irc->listen();
     }

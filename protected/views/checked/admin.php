@@ -32,8 +32,9 @@ js
 	'zii.widgets.grid.CGridView',
 	array(
 		'id' => 'program-grid',
-		'dataProvider' => $model->checkedSearch(),
+		'dataProvider' => $model->checkedSearch($this->bot->id),
 		'columns' => array(
+
 			array('name' => 'title', 'value' => '$data->title->title'),
 			array('name' => 'channel', 'value' => '$data->channel->name'),
 			array(
