@@ -51,7 +51,7 @@ class Program extends CActiveRecord
         // will receive user inputs.
         return array(
             array(
-                'channelId, titleId, startTime, endTime, lastUpdate, subTitle, flag, deleted, warn, revision, allDay',
+                'channelId, titleId, startTime, endTime, lastUpdate, flag, deleted, warn, revision, allDay',
                 'required'
             ),
             array('channelId, titleId, flag, deleted, warn, revision, allDay', 'numerical', 'integerOnly' => true),
