@@ -23,10 +23,9 @@ return CMap::mergeArray(
 			'urlManager' => array(
 				'urlFormat' => 'path',
 				'rules' => array(
-					'<server:.+?>/<channel:\w+>/<controller:\w+>/' => '<controller>/index',
-					'<server:.+?>/<channel:\w+>/<controller:\w+>/<id:\d+>' => '<controller>/view',
+                    '<server:.+?>/<channel:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                     '<server:.+?>/<channel:\w+>/<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-					'<server:.+?>/<channel:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                    '<server:.+?>/<channel:\w+>/<controller:\w+>/' => '<controller>/index',
 				),
 				'showScriptName' => false,
 			),
