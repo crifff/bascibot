@@ -25,7 +25,7 @@ class RunCommand extends CConsoleCommand
 
         $irc->connect($bot->server, $bot->port);
         $irc->login($bot->nickName, $bot->realName);
-        $irc->join('#' . $bot->channel);
+        $irc->join('#' . $bot->channel, $bot->password);
 
         $irc->listen();
     }
