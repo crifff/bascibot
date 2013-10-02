@@ -6,10 +6,10 @@ $GLOBALS['SMARTIRC_nreplycodes'] = $SMARTIRC_nreplycodes;
 
 class RunCommand extends CConsoleCommand
 {
-    public function run()
+    public function run($botId)
     {
         /** @var Bot $bot */
-        $bot = Bot::model()->findByPk(1);
+        $bot = Bot::model()->findByPk($botId);
         $irc = new Net_SmartIRC();
 
         $irc->setAutoRetry(true);
