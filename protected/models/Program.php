@@ -112,7 +112,7 @@ class Program extends CActiveRecord
             'title',
             'channel',
         );
-        $criteria->compare('title.category', 1);
+//        $criteria->compare('title.category', 1);
 
         $criteria->compare('id', $this->id);
         $criteria->compare('channelId', $this->channelId);
