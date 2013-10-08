@@ -1,0 +1,4 @@
+bascibot
+========
+
+anime notice bot
