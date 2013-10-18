@@ -35,7 +35,7 @@ class Bot extends CActiveRecord
             ) {
                 if (!isset($this->noticed[$program->id])) {
                     $text = $this->flagText($program->flag) . sprintf(
-                            "%s [%s] %s",
+                            "【!】 %s [%s] %s",
                             date("H:i", strtotime($program->startTime)),
                             $program->channel->name,
                             $program->title->title
@@ -43,7 +43,7 @@ class Bot extends CActiveRecord
                     if ($program->subTitle) {
                         $text .= sprintf(" 「%s」", $program->subTitle);
                     }
-                    $this->notice($irc, $text);
+                    $this->say($irc, $text);
                     $this->noticed[$program->id] = true;
                 }
             }
@@ -77,7 +77,9 @@ class Bot extends CActiveRecord
     {
         if (preg_match('/(?:^|[\s　]+)((?:https?|ftp):\/\/[^\s　]+)/', $data->message, $matches)) {
             $title = $this->getPageTitle($matches[1]);
-            $this->notice($irc, $title);
+            if ($title) {
+                $this->notice($irc, $title);
+            }
         }
     }
 
@@ -91,4 +93,8 @@ class Bot extends CActiveRecord
         $irc->message(SMARTIRC_TYPE_NOTICE, '#' . $this->channel, $message);
     }
 
+    private function say(Net_SmartIRC $irc, $message)
+    {
+        $irc->message(SMARTIRC_TYPE_CHANNEL, '#' . $this->channel, $message);
+    }
 }
