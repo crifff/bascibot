@@ -2,7 +2,11 @@
 
 return CMap::mergeArray(
 	require(dirname(__FILE__) . '/database.php'),
+    require(dirname(__FILE__) . '/airbrake.php'),
 	array(
+        'aliases' => array(
+            'Airbrake' => 'webroot.vendor.dbtlr.php-airbrake.src.Airbrake', // This is needed for the namespacing to work
+        ),
 		'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
 		'name' => 'bascibot {\'<\'}',
 		'preload' => array('log'),

@@ -1,5 +1,12 @@
 {
   "require": {
     "yiisoft/yii": "dev-master"
+    ,"dbtlr/php-airbrake": "dev-master"
+    ,"bogsey/yii-airbrake": "dev-master"
+  },
+  "autoload": {
+    "psr-0": {
+      "config": "./"
+    }
   }
 }
