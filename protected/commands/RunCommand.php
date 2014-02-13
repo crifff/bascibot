@@ -14,8 +14,8 @@ class RunCommand extends CConsoleCommand
 
         $irc->setAutoRetry(true);
         $irc->setAutoReconnect(true);
-        //        $irc->setChannelSyncing(true);
-        $irc->setDebug(SMARTIRC_DEBUG_ALL);
+        $irc->setChannelSyncing(true);
+        //$irc->setDebug(SMARTIRC_DEBUG_ALL);
         $irc->setLogdestination(SMARTIRC_STDOUT);
 
         //10000msec毎に$bot->timer()を呼ぶ

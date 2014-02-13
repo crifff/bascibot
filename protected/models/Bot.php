@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Class Bot
  * @property string $nickName
@@ -75,6 +76,10 @@ class Bot extends CActiveRecord
 
     public function reserveMessage(Net_SmartIRC $irc, $data)
     {
+        if ($data->type != SMARTIRC_TYPE_CHANNEL) {
+            return;
+        }
+
         if (preg_match('/(?:^|[\s　]+)((?:https?|ftp):\/\/[^\s　]+)/', $data->message, $matches)) {
             $title = $this->getPageTitle($matches[1]);
             if ($title) {
